@@ -9,7 +9,7 @@
           @click="isOpenCategory = !isOpenCategory"
         >
           <div class="flex items-center gap-2">
-            <!-- <img src="/icon/burgr-icon.svg" alt="" class="h-4 w-4" /> -->
+            <img src="/icon/burgr-icon.svg" alt="" class="h-4 w-4" />
             <span class="text-[15px] font-medium text-[#3D464D]"
               >Categories</span
             >
@@ -49,14 +49,14 @@
       </div>
       <div class="flex items-center gap-3">
         <div class="flex items-center gap-1">
-          <!-- <img src="/icon/heart.png" alt="" class="h-7 w-7" /> -->
+          <img src="/icon/heart.png" alt="" class="h-7 w-7" />
           <span
             class="border border-white rounded-full text-white font-medium text-sm px-1 py-[1px]"
             >0</span
           >
         </div>
         <div class="flex items-center gap-1">
-          <!-- <img src="/icon/cart-icon.png" alt="" class="h-7 w-7" /> -->
+          <img src="/icon/cart-icon.png" alt="" class="h-7 w-7" />
           <span
             class="border border-white rounded-full text-white font-medium px-1 text-sm py-[1px]"
             >0</span
