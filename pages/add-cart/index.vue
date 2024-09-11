@@ -126,9 +126,6 @@ const addToCart = async () => {
     if (response.status === 200) {
       console.log(response.data.data.data);
     }
-    console.log(LoginUser.value.user);
-
-    await productsStore.getAllCarts(LoginUser.value.user._id);
   } catch (error) {
     console.log(error);
   }

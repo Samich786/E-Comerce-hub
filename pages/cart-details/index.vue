@@ -15,29 +15,86 @@
                 <th>Remove</th>
               </tr>
             </thead>
-            <tbody>
+            <tbody v-if="getAllCarts.length > 0">
               <!-- row 1 -->
-              <tr>
-                <th>1</th>
-                <td>Cy Ganderton</td>
-                <td>Quality Control Specialist</td>
-                <td>Blue</td>
-              </tr>
-              <!-- row 2 -->
-              <tr class="hover">
-                <th>2</th>
-                <td>Hart Hagerty</td>
-                <td>Desktop Support Technician</td>
-                <td>Purple</td>
-              </tr>
-              <!-- row 3 -->
-              <tr>
-                <th>3</th>
-                <td>Brice Swyre</td>
-                <td>Tax Accountant</td>
-                <td>Red</td>
+              <template v-for="cart in getAllCarts" :key="cart._id">
+                <!-- Loop through items in each cart -->
+                <tr
+                  v-for="(item, index) in cart.items"
+                  :key="index"
+                  class="hover:bg-gray-400 hover:text-white"
+                >
+                  <td>{{ index + 1 }}</td>
+                  <td>
+                    {{ item.products.name }}
+                  </td>
+                  <td>
+                    <div v-if="item.products.discountPrice > 0">
+                      <span>${{ item.products?.discountPrice }}</span>
+                    </div>
+                    <div v-else>${{ item.products?.price }}</div>
+                  </td>
+                  <td>
+                    <div class="rounded-[1px] flex items-center">
+                      <div
+                        class="bg-primary px-2 py-1 border border-Secondary"
+                        @click="decreement"
+                      >
+                        <img
+                          src="/icon/icons8-minus-32.png"
+                          alt=""
+                          class="h-5 w-5"
+                        />
+                      </div>
+                      <div
+                        class="bg-[#F5F5F5] px-3 py-1 border border-Secondary"
+                      >
+                        <span>{{ item.quantity }}</span>
+                      </div>
+                      <div
+                        class="bg-primary px-2 py-1 border border-Secondary"
+                        @click="increment"
+                      >
+                        <img
+                          src="/icon/icons8-plus-30.png"
+                          alt=""
+                          class="h-5 w-5"
+                        />
+                      </div>
+                    </div>
+                  </td>
+                  <td>
+                    <div v-if="item.products.discountPrice > 0">
+                      <span
+                        >${{
+                          item.products?.discountPrice * item.quantity
+                        }}</span
+                      >
+                    </div>
+                    <div v-else>
+                      ${{ item.products?.price * item.quantity }}
+                    </div>
+                  </td>
+                  <td>
+                    <div class="">
+                      <img
+                        src="/icon/cross-icon.png"
+                        alt=""
+                        class="h-5 w-5 bg-[#DC3545] px-1 py-1" @click="removeFromCart(item)"
+                      />
+                    </div>
+                  </td>
+                </tr>
+              </template>
+            </tbody>
+            <tbody v-else>
+              <tr class="border-none">
+                <td colspan="7" class="text-center text-xl font-semibold text-[#3D464D] py-20">
+                  <span>No Items in Cart</span>
+                </td>
               </tr>
             </tbody>
+            
           </table>
         </div>
       </div>
@@ -73,23 +130,27 @@
             class="flex justify-between font-semibold items-center text-secondary mt-3"
           >
             <span>Subtotal</span>
-            <span class="text-lg font-semibold text-secondary">$0.00</span>
+            <span class="text-lg font-semibold text-secondary"
+              >${{ total }}</span
+            >
           </div>
           <div
             class="flex justify-between font-semibold items-center text-secondary mt-3 mb-3"
           >
             <span>Shipping</span>
-            <span class="text-lg font-semibold text-secondary">$0.00</span>
+            <span class="text-lg font-semibold text-secondary">$10</span>
           </div>
           <hr />
           <div
-            class="flex text-xl justify-between font-bold items-center text-secondary mt-3"
+            class="flex text-xl justify-between font-semibold items-center text-secondary mt-3"
           >
             <span>Total</span>
-            <span class="text-xl font-bold text-secondary">$0.00</span>
+            <span class="text-xl font-semibold text-secondary"
+              >${{ total + 10 }}</span
+            >
           </div>
           <div
-            class="text-secondary font-bold text-center mt-5 bg-primary px-3 py-3"
+            class="text-secondary text-xl font-semibold text-center mt-5 bg-primary px-3 py-3"
           >
             <span>Proceed to Checkout</span>
           </div>
@@ -98,3 +159,35 @@
     </div>
   </div>
 </template>
+<script setup>
+import { useProductsStore } from "@/store/products";
+import { useRouter } from "vue-router";
+import { storeToRefs } from "pinia";
+import { ref, onMounted, computed } from "vue";
+
+const productsStore = useProductsStore();
+const router = useRouter();
+const { getAllCarts } = storeToRefs(productsStore);
+
+onMounted(async () => {
+  await productsStore.fetchAllCarts();
+});
+const total = computed(() => productsStore.getTotal);
+
+const removeFromCart = async (item) => {
+  try {
+    console.log(item.products._id);
+    
+    const data = {
+      productId: item.products._id,
+    };
+    const response = await productsStore.removeFromCartData(data);
+    if (response.status === 200) {
+      console.log(response.data.data.data);
+      
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
+</script>

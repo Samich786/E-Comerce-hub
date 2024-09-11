@@ -2,5 +2,6 @@
 export const state = () => ({
   categories: [],
   allProducts: [],
-  productById:{}
+  productById:{},
+  carts: [],
 });

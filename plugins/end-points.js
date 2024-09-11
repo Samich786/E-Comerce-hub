@@ -10,6 +10,7 @@ export default defineNuxtPlugin((nuxtApp) => {
     ALLPRODUCTS: "products/allproducts",
     PRODUCTBYID: "products/productById",
     ADDTOCART: "products/cart",
+    REMOVECART: "products/removeCart",
   };
 
   nuxtApp.provide("API", url);

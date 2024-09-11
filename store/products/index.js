@@ -10,5 +10,12 @@ export const useProductsStore = defineStore('products',{
     getProductByIdData: (state)=> state.productById,
     getAllProducts: (state)=> state.allProducts,
     getCategories: (state)=> state.categories,
+    getAllCarts: (state)=> state.carts,
+    getTotal: (state) => {
+      return state.carts?.length > 0 ? state.carts[0].total : 0; // Access total safely
+    },
+    getTotalQuantity: (state) => {
+      return state.carts?.length > 0 ? state.carts[0].totalQunatity : 0;
+    }
   },
 });

@@ -80,17 +80,35 @@ export const actions = {
     const { $apiClient, $API } = useNuxtApp();
     try {
       const response = await $apiClient.post($API.ADDTOCART, payload);
+      await this.fetchAllCarts();
       return response;
     } catch (error) {
       return error;
     }
   },
-  async getAllCarts(payload) {
-    console.log(payload, "get carts");
+  async removeFromCartData(payload) {
+    console.log(payload.productId);
+
+    const { $apiClient, $API } = useNuxtApp();
+    try {
+      const response = await $apiClient.delete($API.REMOVECART, {
+        data: { productId: payload.productId }
+      });
+      await this.fetchAllCarts();
+      return response;
+    } catch (error) {
+      return error;
+    }
+  },
+  async fetchAllCarts(payload) {
+    
 
     const { $apiClient, $API } = useNuxtApp();
     try {
       const response = await $apiClient.get($API.ADDTOCART);
+      // console.log(response.data.data);
+      
+      this.carts = response.data.data.cart;
       return response;
     } catch (error) {
       return error;
