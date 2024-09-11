@@ -90,7 +90,7 @@ export const actions = {
 
     const { $apiClient, $API } = useNuxtApp();
     try {
-      const response = await $apiClient.get($API.ADDTOCART, payload);
+      const response = await $apiClient.get($API.ADDTOCART);
       return response;
     } catch (error) {
       return error;
