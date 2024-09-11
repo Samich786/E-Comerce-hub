@@ -76,9 +76,11 @@
 <script setup>
 import { ref, onMounted } from "vue";
 import { useAuthStore } from "~/store/auth";
+import { useProductsStore } from "~/store/products";
 import { useRouter } from "vue-router";
 
 const authStore = useAuthStore();
+const productsStore = useProductsStore();
 const router = useRouter();
 
 const isOpenCategory = ref(false);
@@ -107,7 +109,7 @@ const menueItem = ref([
   {
     id: 3,
     name: "Shopping Cart",
-    router: "/cart",
+    router: "/cart-details",
     isActive: false,
   },
   {
@@ -193,17 +195,17 @@ async function selectCategory(data) {
   const filterData = {
     filter: filter.value,
   };
-  await authStore.fetchAllProductsData(filterData);
+  await productsStore.fetchAllProductsData(filterData);
   router.push(`/products?categoriesType=${data.name}`);
 }
 
 const logout = async () => {
   try {
     // Handle logout with proper state management
-    authStore.logout(); // Ensure this method correctly clears authentication state
-
-    // Optionally remove the token manually (usually handled by $auth.logout())
-    localStorage.removeItem("auth._token.local");
+    const response = await authStore.logout();
+    if (response.status === 200) {
+      router.push("/auth/login");
+    }
   } catch (error) {
     // Handle any errors during logout
     console.error("Logout error:", error);

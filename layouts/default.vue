@@ -1,10 +1,10 @@
 <template>
-  <div>
+  <div class="h-screen">
     <Header />
-    <main>
+    <main class="bg-[#F5F5F5] mt-16 h-calc(100vh-64px)">
       <NuxtPage />
     </main>
-    <Footer />
+    <!-- <Footer /> -->
   </div>
 </template>
 

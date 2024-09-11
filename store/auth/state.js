@@ -1,5 +1,5 @@
 // stores/auth/state.js
 export const state = () => ({
-  user: null,
+  user: {},
   token: null,
 });

@@ -20,7 +20,7 @@ export default defineNuxtConfig({
   // },
   // middleware: ["authenticated"],
   modules: ["@pinia/nuxt"],
-  css: ["@/public/css/main.css"],
+  css: ["@/public/css/main.css", "@/public/css/global.css"],
   plugins: ["~/plugins/axios", "~/plugins/auth"],
   postcss: {
     plugins: {

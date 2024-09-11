@@ -1,9 +1,16 @@
 // stores/auth/actions.js
 export const actions = {
-  logout() {
-    localStorage.removeItem("auth._token.local");
-    this.user = null;
-    this.token = null;
+  async logout() {
+    const { $apiClient, $API } = useNuxtApp();
+    try {
+      const response = await $apiClient.post($API.LOGOUT);
+      localStorage.removeItem("auth._token.local");
+      this.user = null;
+      this.token = null;
+      return response;
+    } catch (error) {
+      console.error("Logout failed:", error);
+    }
   },
   async registerRequest(payload) {
     const { $apiClient } = useNuxtApp();
@@ -31,7 +38,7 @@ export const actions = {
     const { $apiClient } = useNuxtApp();
     try {
       const response = await $apiClient.get("/auth/me");
-      this.user = response.data;
+      this.user = response.data.data.data;
     } catch (error) {
       console.error("Fetch user data failed:", error);
     }

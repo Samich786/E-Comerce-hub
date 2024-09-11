@@ -1,6 +1,6 @@
 // stores/auth/actions.js
 export const actions = {
-  async fetchCategories( payload) {
+  async fetchCategories(payload) {
     const { $apiClient, $API } = useNuxtApp();
     try {
       const response = await $apiClient.get($API.CATEGORIES);
@@ -11,7 +11,7 @@ export const actions = {
     }
   },
   async fetchNewArrivalsData(payload) {
-    console.log(payload);
+    // console.log(payload);
     const { $apiClient, $API } = useNuxtApp();
     try {
       const response = await $apiClient.get($API.NEWARRIVALS);
@@ -21,7 +21,7 @@ export const actions = {
     }
   },
   async fetchPopularData(payload) {
-    console.log(payload);
+    // console.log(payload);
     const { $apiClient, $API } = useNuxtApp();
     try {
       const response = await $apiClient.get($API.POPULARPRODUCTS);
@@ -31,7 +31,7 @@ export const actions = {
     }
   },
   async fetchPopularData(payload) {
-    console.log(payload);
+    // console.log(payload);
     const { $apiClient, $API } = useNuxtApp();
     try {
       const response = await $apiClient.get($API.POPULARPRODUCTS);
@@ -41,8 +41,23 @@ export const actions = {
     }
   },
   async fetchAllProductsData(payload) {
+    const { $apiClient, $API } = useNuxtApp();
     try {
-      const response = await $apiClient.get($API.ALLPRODUCTS+`?page=${payload.filter.page}&limit=${payload.filter.limit}&isPopular=${payload.filter.isPopular}&isNewArrival=${payload.filter.isNewArrival}&discount=${payload.filter.discount}&category=${payload.filter.categoriesType}`);
+      const { page, limit, isPopular, isNewArrival, discount, categoriesType } =
+        payload.filter;
+      console.log(
+        page,
+        limit,
+        isPopular,
+        isNewArrival,
+        discount,
+        categoriesType
+      );
+
+      const response = await $apiClient.get(
+        $API.ALLPRODUCTS +
+          `?page=${page}&limit=${limit}&isPopular=${isPopular}&isNewArrival=${isNewArrival}&discount=${discount}&category=${categoriesType}`
+      );
       this.allProducts = response.data.data.data;
       return response;
     } catch (error) {
@@ -50,8 +65,9 @@ export const actions = {
     }
   },
   async getProductById(payload) {
+    const { $apiClient, $API } = useNuxtApp();
     try {
-      const response = await $apiClient.get($API.PRODUCTBYID+`/${payload}`);
+      const response = await $apiClient.get($API.PRODUCTBYID + `/${payload}`);
       this.productById = response.data.data.data.product;
       return response;
     } catch (error) {
@@ -59,6 +75,9 @@ export const actions = {
     }
   },
   async addToCartData(payload) {
+    // console.log(payload);
+
+    const { $apiClient, $API } = useNuxtApp();
     try {
       const response = await $apiClient.post($API.ADDTOCART, payload);
       return response;
@@ -66,7 +85,19 @@ export const actions = {
       return error;
     }
   },
+  async getAllCarts(payload) {
+    console.log(payload, "get carts");
+
+    const { $apiClient, $API } = useNuxtApp();
+    try {
+      const response = await $apiClient.get($API.ADDTOCART, payload);
+      return response;
+    } catch (error) {
+      return error;
+    }
+  },
   async createProduct(payload) {
+    const { $apiClient, $API } = useNuxtApp();
     try {
       const response = await $apiClient.post($API.CREATEPRODUCTS, payload);
       return response;

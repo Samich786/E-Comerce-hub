@@ -141,7 +141,10 @@
         v-for="item in categories"
         :key="item.id"
       >
-        <div class="grid grid-cols-8 items-center overflow-hidden" @click="selectCategory(item)">
+        <div
+          class="grid grid-cols-8 items-center overflow-hidden"
+          @click="selectCategory(item)"
+        >
           <!-- Image Container -->
           <div class="col-span-3 overflow-hidden px-2 py-1">
             <!-- Image with zoom effect on card hover -->
@@ -199,16 +202,26 @@
             class="py-5 pb-10 z-20 items-center text-center border shadow-lg"
             style="border-color: rgba(190, 197, 203, 0.2)"
           >
-            <span class="text-xl font-semibold text-[#3D464D]">{{ item?.name }}</span>
+            <span class="text-xl font-semibold text-[#3D464D]">{{
+              item?.name
+            }}</span>
             <div class="flex gap-3 items-center justify-center">
-              <span v-if="item?.discountPrice>0" class="text-lg font-bold text-[#3D464D]">${{ item?.discountPrice }}</span>
-              <span v-else class="text-lg font-bold text-[#3D464D]">${{ item?.price }}</span>
-              <span v-if="item?.discountPrice>0" class="text-[15px] text-[#6C757D] font-normal line-through"
+              <span
+                v-if="item?.discountPrice > 0"
+                class="text-lg font-bold text-[#3D464D]"
+                >${{ item?.discountPrice }}</span
+              >
+              <span v-else class="text-lg font-bold text-[#3D464D]"
+                >${{ item?.price }}</span
+              >
+              <span
+                v-if="item?.discountPrice > 0"
+                class="text-[15px] text-[#6C757D] font-normal line-through"
                 >${{ item?.price }}</span
               >
             </div>
             <div class="flex gap-2 items-center justify-center">
-              <Rating :rating="item?.rating" />
+              <rating :rating="item?.rating" />
               <span class="text-sm font-normal">(99)</span>
             </div>
           </div>
@@ -230,7 +243,11 @@
     <div
       class="grid lg:grid-cols-4 gap-8 md:grid-cols-2 xs:grid-cols-1 px-8 py-5 mt-3"
     >
-      <div class="col-span-1 group" v-for="item in popularProducts" :key="item.id">
+      <div
+        class="col-span-1 group"
+        v-for="item in popularProducts"
+        :key="item.id"
+      >
         <div class="card card-compact bg-white rounded-[1px] w-full h-[400px]">
           <!-- Custom height -->
           <div
@@ -246,16 +263,26 @@
             class="py-5 pb-10 z-20 items-center text-center border shadow-lg"
             style="border-color: rgba(190, 197, 203, 0.2)"
           >
-            <span class="text-xl font-semibold text-[#3D464D]">{{ item?.name }}</span>
+            <span class="text-xl font-semibold text-[#3D464D]">{{
+              item?.name
+            }}</span>
             <div class="flex gap-3 items-center justify-center">
-              <span v-if="item?.discountPrice>0" class="text-lg font-bold text-[#3D464D]">${{ item?.discountPrice }}</span>
-              <span v-else class="text-lg font-bold text-[#3D464D]">${{ item?.price }}</span>
-              <span v-if="item?.discountPrice>0" class="text-[15px] text-[#6C757D] font-normal line-through"
+              <span
+                v-if="item?.discountPrice > 0"
+                class="text-lg font-bold text-[#3D464D]"
+                >${{ item?.discountPrice }}</span
+              >
+              <span v-else class="text-lg font-bold text-[#3D464D]"
+                >${{ item?.price }}</span
+              >
+              <span
+                v-if="item?.discountPrice > 0"
+                class="text-[15px] text-[#6C757D] font-normal line-through"
                 >${{ item?.price }}</span
               >
             </div>
             <div class="flex gap-2 items-center justify-center">
-              <Rating :rating="item?.rating" />
+              <rating :rating="item?.rating" />
               <span class="text-sm font-normal">(99)</span>
             </div>
           </div>
@@ -266,15 +293,16 @@
 </template>
 
 <script setup>
-import  rating from '@/components/global/Rating.vue'
+import rating from "@/components/global/Rating.vue";
 import { ref, onMounted } from "vue";
+import { useRoute } from "vue-router";
 import { useProductsStore } from "@/store/products";
-import { useRouter } from "vue-router"
+import { useRouter } from "vue-router";
 
 const productStore = useProductsStore();
 const router = useRouter();
+const route = useRoute();
 // get getters
-
 
 const currentRating = ref(4);
 const activeIndex = ref(0);
@@ -345,37 +373,37 @@ onMounted(async () => {
   await fetchNewArrivals();
   await fetchPopular();
 });
-  const setActive= (index) => {
-      this.activeIndex = index; // Set the active item based on the clicked index
-    };
-    const fetchPopular= async () => {
-      try {
-        const response = await productStore.fetchPopularData();
-        if (response.status === 200) {
-          console.log(response.data.data.data);
-          
-          popularProducts.value = response.data?.data?.data?.products;
-        }
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    const fetchNewArrivals= async () => {
-      try {
-        const response = await productStore.fetchNewArrivalsData();
-        if (response.status === 200) {
-          console.log(response.data.data.data);
-          
-          newArrivals.value = response.data?.data?.data?.products;
-        }
-      } catch (error) {
-        console.log(error);
-      }
-    };
-   const selectCategory = async (data) => {
-      filter.categoriesType.value = data.name;
-      this.$router.push(`/products?categoriesType=${data.name}`);
+const setActive = (index) => {
+  this.activeIndex = index; // Set the active item based on the clicked index
+};
+const fetchPopular = async () => {
+  try {
+    const response = await productStore.fetchPopularData();
+    if (response.status === 200) {
+      console.log(response.data.data.data);
+
+      popularProducts.value = response.data?.data?.data?.products;
     }
+  } catch (error) {
+    console.log(error);
+  }
+};
+const fetchNewArrivals = async () => {
+  try {
+    const response = await productStore.fetchNewArrivalsData();
+    if (response.status === 200) {
+      console.log(response.data.data.data);
+
+      newArrivals.value = response.data?.data?.data?.products;
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
+const selectCategory = async (data) => {
+  filter.value.categoriesType = data.name;
+  router.push(`/products?categoriesType=${data.name}`);
+};
 </script>
 
 <style scoped>
