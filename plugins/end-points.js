@@ -11,6 +11,7 @@ export default defineNuxtPlugin((nuxtApp) => {
     PRODUCTBYID: "products/productById",
     ADDTOCART: "products/cart",
     REMOVECART: "products/removeCart",
+    SENDMESSAGE: "users/contact",
   };
 
   nuxtApp.provide("API", url);

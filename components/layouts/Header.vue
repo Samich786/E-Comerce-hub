@@ -55,8 +55,13 @@
             >0</span
           >
         </div>
-        <div class="relative flex items-center gap-1"   @click="isOpenCart = !isOpenCart">
-          <img src="/icon/cart-icon.png" alt="" class="h-7 w-7" />
+        <div class="relative flex items-center gap-1">
+          <img
+            src="/icon/cart-icon.png"
+            alt=""
+            class="h-7 w-7"
+            @click="isOpenCart = !isOpenCart"
+          />
           <span
             class="border border-white rounded-full text-white font-medium px-1 text-sm py-[1px]"
             >{{ totalQuantity }}</span
@@ -64,35 +69,56 @@
           <transition name="fade-slide">
             <div
               v-if="isOpenCart"
-              class="absolute top-[45px]  right-0  bg-white border shadow-lg border-gray-300 z-10 w-[350px] pt-5 pb-3"
+              class="absolute top-[45px] right-0 bg-white border shadow-lg border-gray-300 z-10 w-[350px] pt-5 pb-3"
             >
-              <div v-for="cart in getAllCarts" :key="cart._id"  >
-                <div  v-for="(item, index) in cart.items"
-                :key="index" >
-                <div class="flex items-center gap-3 py-5 px-2 bg-slate-100 mx-5 mb-5" >
-                  <img :src="item.products.picture" alt="" class="h-16 w-16" />
-                  <div class="flex flex-col">
-
-                    <span class="text-black font-medium text-lg">{{ item.products.name }}</span>
-                    <span class="text-sm font-medium text-black">{{ item.quantity }} x ${{ item.products.price }}</span>
+              <div v-if="getAllCarts.length > 0">
+                <div v-for="cart in getAllCarts" :key="cart._id">
+                  <div v-for="(item, index) in cart.items" :key="index">
+                    <div
+                      class="flex items-center gap-3 py-5 px-2 bg-slate-100 mx-5 mb-5"
+                    >
+                      <img
+                        :src="item.products.picture"
+                        alt=""
+                        class="h-16 w-16"
+                      />
+                      <div class="flex flex-col">
+                        <span class="text-black font-medium text-lg">{{
+                          item.products.name
+                        }}</span>
+                        <span class="text-sm font-medium text-black"
+                          >{{ item.quantity }} x ${{
+                            item.products.price
+                          }}</span
+                        >
+                      </div>
+                    </div>
+                  </div>
+                  <hr />
+                  <div class="flex justify-between items-center px-5 py-3">
+                    <span class="text-lg font-medium text-black"
+                      >Subtotal:</span
+                    >
+                    <span class="text-2xl text-[#FD5018] font-medium text-black"
+                      >${{ cart.total }}</span
+                    >
+                  </div>
+                  <div
+                    class="text-secondary text-lg font-semibold text-center mt-5 bg-primary px-3 py-3 mx-5"
+                    @click="viewCart"
+                  >
+                    <span>View Cart</span>
+                  </div>
+                  <div
+                    class="text-secondary text-lg font-semibold text-center mt-5 bg-primary px-3 py-3 mx-5"
+                    @click="handleCheckout"
+                  >
+                    <span>Checkout</span>
                   </div>
                 </div>
               </div>
-              <hr>
-              <div class="flex justify-between items-center px-5 py-3">
-                <span class="text-lg font-medium text-black">Subtotal:</span>
-                <span class="text-2xl text-[#FD5018] font-medium text-black">${{ cart.total }}</span>
-              </div>
-              <div
-            class="text-secondary text-lg font-semibold text-center mt-5 bg-primary px-3 py-3 mx-5"
-          >
-            <span>View Cart</span>
-          </div>
-          <div
-            class="text-secondary text-lg font-semibold text-center mt-5 bg-primary px-3 py-3 mx-5"
-          >
-            <span>Checkout</span>
-          </div>
+              <div v-else class="text-center text-xl font-semobild">
+                No carts found
               </div>
             </div>
           </transition>
@@ -219,7 +245,15 @@ onMounted(async () => {
     currentItem.isActive = true;
   }
 });
-
+//  Funtions or Methods ---------------------------------------------------------------
+const viewCart = async () => {
+  router.push("/cart-details");
+  isOpenCart.value = false;
+};
+const handleCheckout = async () => {
+  router.push("/checkout");
+  isOpenCart.value = false;
+};
 const setActive = (item) => {
   console.log(item);
   menueItem.value.forEach((item) => {

@@ -92,7 +92,7 @@ export const actions = {
     const { $apiClient, $API } = useNuxtApp();
     try {
       const response = await $apiClient.delete($API.REMOVECART, {
-        data: { productId: payload.productId }
+        data: { productId: payload.productId },
       });
       await this.fetchAllCarts();
       return response;
@@ -101,13 +101,11 @@ export const actions = {
     }
   },
   async fetchAllCarts(payload) {
-    
-
     const { $apiClient, $API } = useNuxtApp();
     try {
       const response = await $apiClient.get($API.ADDTOCART);
       // console.log(response.data.data);
-      
+
       this.carts = response.data.data.cart;
       return response;
     } catch (error) {
@@ -118,6 +116,16 @@ export const actions = {
     const { $apiClient, $API } = useNuxtApp();
     try {
       const response = await $apiClient.post($API.CREATEPRODUCTS, payload);
+      return response;
+    } catch (error) {
+      return error;
+    }
+  },
+  async sendMessage(payload) {
+    console.log(payload);
+    const { $apiClient, $API } = useNuxtApp();
+    try {
+      const response = await $apiClient.post($API.SENDMESSAGE, payload);
       return response;
     } catch (error) {
       return error;
