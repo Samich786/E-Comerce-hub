@@ -62,7 +62,7 @@
     >
       <div class="col-span-1 group" v-for="item in allProducts" :key="item.id">
         <div
-          class="card card-compact bg-white rounded-[1px] w-full h-[400px]"
+          class="card card-compact bg-white rounded-[1px] w-full h-[400px] cursor-pointer"
           @click="getSingleProduct(item)"
         >
           <!-- Custom height -->

@@ -159,10 +159,10 @@
                   <span
                     v-if="item.products.discountPrice > 0"
                     class="text-lg font-normal text-secondary"
-                    >${{ item.products?.discountPrice }}</span
+                    >${{ item.products?.discountPrice * item.quantity}}</span
                   >
                   <span v-else class="text-lg font-medium text-secondary"
-                    >${{ item.products?.price }}</span
+                    >${{ item.products?.price * item.quantity}}</span
                   >
                 </div>
               </div>

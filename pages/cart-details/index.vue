@@ -80,7 +80,7 @@
                       <img
                         src="/icon/cross-icon.png"
                         alt=""
-                        class="h-5 w-5 bg-[#DC3545] px-1 py-1" @click="removeFromCart(item)"
+                        class="h-5 w-5 bg-[#DC3545] cursor-pointer px-1 py-1" @click="removeFromCart(item)"
                       />
                     </div>
                   </td>
@@ -150,7 +150,7 @@
             >
           </div>
           <div
-            class="text-secondary text-xl font-semibold text-center mt-5 bg-primary px-3 py-3"
+            class="text-secondary text-xl font-semibold text-center mt-5 bg-primary px-3 py-3" @click="handleCheckout"
           >
             <span>Proceed to Checkout</span>
           </div>
@@ -189,5 +189,8 @@ const removeFromCart = async (item) => {
   } catch (error) {
     console.log(error);
   }
+};
+const handleCheckout = async () => {
+  router.push("/checkout");
 };
 </script>

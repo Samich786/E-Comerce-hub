@@ -71,11 +71,14 @@
               v-if="isOpenCart"
               class="absolute top-[45px] right-0 bg-white border shadow-lg border-gray-300 z-10 w-[350px] pt-5 pb-3"
             >
-              <div v-if="getAllCarts.length > 0">
+              <div v-if="getAllCarts.length > 0" class="">
                 <div v-for="cart in getAllCarts" :key="cart._id">
-                  <div v-for="(item, index) in cart.items" :key="index">
+                  <div
+                    v-for="(item, index) in cart?.items.slice(0, 2)"
+                    :key="index"
+                  >
                     <div
-                      class="flex items-center gap-3 py-5 px-2 bg-slate-100 mx-5 mb-5"
+                      class="flex items-center gap-3 py-5 px-2 bg-slate-100 mx-5 mb-5 relative"
                     >
                       <img
                         :src="item.products.picture"
@@ -92,6 +95,14 @@
                           }}</span
                         >
                       </div>
+                      <div class="absolute right-0 top-0">
+                        <img
+                          src="/icon/cross-icon.png"
+                          alt=""
+                          class="h-4 w-4 bg-[#DC3545] cursor-pointer rounded-full px-1 py-1"
+                          @click="removeFromCart(item)"
+                        />
+                      </div>
                     </div>
                   </div>
                   <hr />
@@ -104,13 +115,13 @@
                     >
                   </div>
                   <div
-                    class="text-secondary text-lg font-semibold text-center mt-5 bg-primary px-3 py-3 mx-5"
+                    class="text-secondary text-lg font-semibold text-center mt-5 bg-primary px-3 py-3 mx-5 cursor-pointer"
                     @click="viewCart"
                   >
                     <span>View Cart</span>
                   </div>
                   <div
-                    class="text-secondary text-lg font-semibold text-center mt-5 bg-primary px-3 py-3 mx-5"
+                    class="text-secondary text-lg font-semibold text-center mt-5 bg-primary px-3 py-3 mx-5 cursor-pointer"
                     @click="handleCheckout"
                   >
                     <span>Checkout</span>
@@ -270,7 +281,19 @@ async function selectCategory(data) {
   await productsStore.fetchAllProductsData(filterData);
   router.push(`/products?categoriesType=${data.name}`);
 }
-
+const removeFromCart = async (item) => {
+  try {
+    const data = {
+      productId: item.products._id,
+    };
+    const response = await productsStore.removeFromCartData(data);
+    if (response.status === 200) {
+      console.log(response.data.data.data);
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
 const logout = async () => {
   try {
     // Handle logout with proper state management

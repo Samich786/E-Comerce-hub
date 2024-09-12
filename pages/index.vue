@@ -1,11 +1,12 @@
 <template>
   <div>
     <div class="grid lg:grid-cols-3 gap-3 md:grid-cols-2 px-8 py-5">
+      
       <div class="lg:col-span-2 xss:col-span-3 rounded-lg">
         <div class="carousel w-full relative">
           <!-- Carousel Items -->
           <div
-            v-for="(item, index) in items"
+            v-for="(item, index) in newArrivals"
             :key="index"
             :id="'item' + (index + 1)"
             class="carousel-item w-full"
@@ -14,7 +15,7 @@
               hidden: activeIndex !== index,
             }"
           >
-            <img :src="item.src" class="w-full h-[450px]" />
+            <img :src="item.picture" class="w-full h-[450px] object-cover" />
           </div>
 
           <!-- Button Controls -->
@@ -39,7 +40,7 @@
               </button>
               <div class="flex gap-2 justify-center items-center mt-20">
                 <a
-                  v-for="(item, index) in items"
+                  v-for="(item, index) in newArrivals"
                   :key="'nav-' + index"
                   :href="'#item' + (index + 1)"
                   class="btn btn-xs border border-white bg-transparent hover:bg-white hover:border-white"
@@ -60,12 +61,8 @@
       <div class="lg:col-span-1 xss:col-span-3">
         <div class="flex flex-col gap-4 justify-center items-center">
           <div
-            class="relative h-[216px] w-full"
-            style="
-              background-image: url('/image/cart-1.jpeg');
-              background-size: cover;
-              background-position: center;
-            "
+            class="relative h-[216px] w-full bg-cover bg-center"
+            :style="{ backgroundImage: `url(${newArrivals[0]?.picture})` }"
           >
             <div
               class="absolute inset-0 bg-black"
@@ -78,19 +75,15 @@
                 >
                 <button
                   class="btn btn-outline text-[#3D464D] border-2 mt-3 bg-[#FFD333] border-[#FFD333] hover:bg-yellow-400 hover:text-white rounded-[2px] hover:border-none"
-                >
+               @click="getDiscountProduct(newArrivals[0])" >
                   Shop Now
                 </button>
               </div>
             </div>
           </div>
           <div
-            class="relative h-[216px] w-full"
-            style="
-              background-image: url('/image/cart-1.jpeg');
-              background-size: cover;
-              background-position: center;
-            "
+            class="relative h-[216px] w-full bg-cover bg-center"
+            :style="{ backgroundImage: `url(${newArrivals[1]?.picture})` }" @click="getDiscountProduct(newArrivals[1])"
           >
             <div
               class="absolute inset-0 bg-black"
@@ -187,7 +180,7 @@
       class="grid lg:grid-cols-4 gap-8 md:grid-cols-2 xs:grid-cols-1 px-8 py-5 mt-3"
     >
       <div class="col-span-1 group" v-for="item in newArrivals" :key="item?.id">
-        <div class="card card-compact bg-white rounded-[1px] w-full h-[400px]">
+        <div class="card card-compact bg-white rounded-[1px] w-full h-[400px] cursor-pointer"  @click="getSingleProduct(item)">
           <!-- Custom height -->
           <div
             class="overflow-hidden h-full w-full flex justify-center items-center"
@@ -298,10 +291,12 @@ import { ref, onMounted } from "vue";
 import { useRoute } from "vue-router";
 import { useProductsStore } from "@/store/products";
 import { useRouter } from "vue-router";
+import { storeToRefs } from "pinia";
 
 const productStore = useProductsStore();
 const router = useRouter();
 const route = useRoute();
+const {getAllCarts} =storeToRefs(productStore)
 // get getters
 
 const currentRating = ref(4);
@@ -374,7 +369,7 @@ onMounted(async () => {
   await fetchPopular();
 });
 const setActive = (index) => {
-  this.activeIndex = index; // Set the active item based on the clicked index
+  activeIndex.value = index; // Set the active item based on the clicked index
 };
 const fetchPopular = async () => {
   try {
@@ -403,6 +398,20 @@ const fetchNewArrivals = async () => {
 const selectCategory = async (data) => {
   filter.value.categoriesType = data.name;
   router.push(`/products?categoriesType=${data.name}`);
+};
+const getSingleProduct = async (item) => {
+  try {
+    router.push(`/add-cart?id=${item._id}`);
+  } catch (error) {
+    console.log(error);
+  }
+};
+const getDiscountProduct = async (item) => {
+  try {
+    router.push(`/add-cart?id=${item._id}`);
+  } catch (error) {
+    console.log(error);
+  }
 };
 </script>
 
