@@ -5,6 +5,7 @@ export const actions = {
     try {
       const response = await $apiClient.post($API.LOGOUT);
       localStorage.removeItem("auth._token.local");
+      localStorage.removeItem("refreshToken");
       this.user = null;
       this.token = null;
       return response;
@@ -26,8 +27,15 @@ export const actions = {
     const { $apiClient } = useNuxtApp();
     try {
       const response = await $apiClient.post("/auth/login", payload);
-      this.token = response.data.data.data.token;
-      localStorage.setItem("auth._token.local", this.token);
+
+      localStorage.setItem(
+        "auth._token.local",
+        response.data.data.data.accessToken
+      );
+      localStorage.setItem(
+        "refreshToken",
+        response.data.data.data.refreshToken
+      );
       await this.fetchUserData(); // Call another action directly
       return response;
     } catch (error) {

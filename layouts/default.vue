@@ -1,7 +1,7 @@
 <template>
-  <div class="h-screen">
+  <div class="h-screen bg-[#F5F5F5] overflow-hidden">
     <Header />
-    <main class="bg-[#F5F5F5] mt-16 h-calc(100vh-64px)">
+    <main class="h-[calc(100vh-64px)] overflow-y-auto">
       <NuxtPage />
     </main>
     <!-- <Footer /> -->

@@ -1,7 +1,7 @@
 <template>
   <div>
     <div
-      class="fixed top-0 w-full z-50 flex items-center justify-between h-16 px-4 sm:px-6 lg:px-8 bg-[#3D464D] border-b border-white"
+      class="flex items-center justify-between h-16 px-4 sm:px-6 lg:px-8 bg-[#3D464D] border-b border-white"
     >
       <div class="flex items-center gap-20">
         <div

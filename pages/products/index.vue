@@ -1,16 +1,27 @@
 <template>
-  <div>
+  <div class="">
     <div class="flex justify-between items-center px-8 mt-3">
-      <span class="text-2xl font-semibold text-[#3D464D]">Products </span>
       <div v-if="LoginUser?.role === 'admin'">
         <AddorEditProductModal />
       </div>
       <!-- Show the products -->
     </div>
-
+    <div class="mt-7 flex items-center px-8">
+      <!-- Title Container -->
+      <div class="flex-shrink-0">
+        <span class="text-[35px] font-semibold text-[#3D464D]"
+          >Available Products</span
+        >
+      </div>
+      <!-- Dashed Border Container -->
+      <div
+        class="flex-grow border-b border-dashed border-[#BEC5CB] ml-4 mt-2"
+      ></div>
+    </div>
     <div
       class="flex justify-end gap-3 items-center px-8 mt-3"
       :class="{ 'dropdown-open': isSortDropdown }"
+      v-if="allProducts.length > 0"
     >
       <div class="dropdown dropdown-bottom dropdown-end">
         <div
@@ -59,6 +70,7 @@
     </div>
     <div
       class="grid lg:grid-cols-4 gap-8 md:grid-cols-2 xs:grid-cols-1 px-8 py-2 mt-3"
+      v-if="allProducts.length > 0"
     >
       <div class="col-span-1 group" v-for="item in allProducts" :key="item.id">
         <div
@@ -67,13 +79,30 @@
         >
           <!-- Custom height -->
           <div
-            class="overflow-hidden h-full w-full flex justify-center items-center"
+            class="overflow-hidden h-full w-full flex justify-center items-center relative"
           >
             <img
               :src="item?.picture"
-              class="transition-transform duration-300 ease-in-out transform group-hover:scale-125 group-hover:rotate-2 max-w-full maxh-full object-contain"
+              class="transition-transform duration-300 ease-in-out transform group-hover:scale-125 max-w-full maxh-full object-contain"
               alt="Shoes"
             />
+            <div
+              class="absolute inset-0 flex items-center justify-center bg-black bg-opacity-30 opacity-0 transition-opacity duration-300 ease-in-out group-hover:opacity-100"
+            >
+              <div
+                class="flex gap-4 justify-center items-center -translate-x-full group-hover:translate-x-0 transition-transform duration-500 ease-in-out"
+              >
+                <!-- Add to Cart Icon -->
+                <button class="text-gray-600 hover:text-blue-500">
+                  <img src="/icon/cart-icon.png" alt="" class="h-5 w-5" />
+                </button>
+
+                <!-- Add to Wishlist Icon -->
+                <button class="text-gray-600 hover:text-red-500">
+                  <img src="/icon/heart.png" alt="" class="h-5 w-5" />
+                </button>
+              </div>
+            </div>
           </div>
           <div
             class="py-5 pb-10 z-20 items-center text-center border shadow-lg"
@@ -105,47 +134,62 @@
         </div>
       </div>
     </div>
-    <div>
-      <div class="rounded-[1px] flex justify-center pb-5 mt-3">
-        <button
-          class="bg-white text-primary px-2.5 py-1.5 border border-Secondary"
-          @click="prevPage"
-          :class="{}"
-        >
-          Previous
-        </button>
-        <button
-          class="bg-white text-white px-2.5 py-1.5 border border-Secondary"
-          @click="pageOne"
-          :class="[
-            { 'bg-primary': filter.page === 1 },
-            { 'text-white': filter.page === 1 },
-          ]"
-        >
-          1
-        </button>
-        <button
-          class="bg-white text-primary px-2.5 py-1.5 border border-Secondary"
-          @click="pageTwo"
-          :class="{ 'bg-primary': filter.page === 2 }"
-        >
-          2
-        </button>
-        <button
-          class="bg-white text-primary px-2.5 py-1.5 border border-Secondary"
-          @click="pageThree"
-          :class="{ 'bg-primary': filter.page === 3 }"
-        >
-          3
-        </button>
-        <button
-          class="bg-white text-primary px-2.5 py-1.5 border border-Secondary"
-          @click="nextPage"
-          :class="{ 'bg-primary': filter.page === allProducts?.totalPages }"
-        >
-          Next
-        </button>
-      </div>
+    <div
+      v-else
+      class="flex flex-col justify-center gap-5 items-center mt-20 pb-[200px]"
+    >
+      <img
+        src="/public/image/not-found.png"
+        alt="not found"
+        class="object-contain h-60 w-96"
+      />
+      <span class="text-2xl font-semibold text-[#3D464D]"
+        >No Products Found</span
+      >
+    </div>
+
+    <div
+      v-if="allProducts.length > 0"
+      class="rounded-[1px] flex justify-center pb-5 mt-3"
+    >
+      <button
+        class="bg-white text-primary px-2.5 py-1.5 border border-Secondary"
+        @click="prevPage"
+        :class="{}"
+      >
+        Previous
+      </button>
+      <button
+        class="bg-white text-white px-2.5 py-1.5 border border-Secondary"
+        @click="pageOne"
+        :class="[
+          { 'bg-primary': filter.page === 1 },
+          { 'text-white': filter.page === 1 },
+        ]"
+      >
+        1
+      </button>
+      <button
+        class="bg-white text-primary px-2.5 py-1.5 border border-Secondary"
+        @click="pageTwo"
+        :class="{ 'bg-primary': filter.page === 2 }"
+      >
+        2
+      </button>
+      <button
+        class="bg-white text-primary px-2.5 py-1.5 border border-Secondary"
+        @click="pageThree"
+        :class="{ 'bg-primary': filter.page === 3 }"
+      >
+        3
+      </button>
+      <button
+        class="bg-white text-primary px-2.5 py-1.5 border border-Secondary"
+        @click="nextPage"
+        :class="{ 'bg-primary': filter.page === allProducts?.totalPages }"
+      >
+        Next
+      </button>
     </div>
   </div>
 </template>
@@ -253,7 +297,10 @@ const pageThree = () => {
   }
 };
 const nextPage = () => {
-  if (filter.value.page !== getAllProducts?.totalPages) {
+  if (
+    filter.value.page !== getAllProducts?.totalPages &&
+    getAllProducts?.totalPages > 1
+  ) {
     filter.value.page += 1;
     fetchAllProducts();
   }
