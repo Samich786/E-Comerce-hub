@@ -3,7 +3,7 @@
     <div class="px-8 flex items-center">
       <!-- Title Container -->
       <div class="flex-shrink-0">
-        <span class="text-[35px] font-semibold text-[#3D464D]">Contact Us</span>
+        <span class="text-[35px] font-semibold text-[#3D464D]">CONTACT US</span>
       </div>
       <!-- Dashed Border Container -->
       <div

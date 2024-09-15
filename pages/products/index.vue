@@ -10,7 +10,7 @@
       <!-- Title Container -->
       <div class="flex-shrink-0">
         <span class="text-[35px] font-semibold text-[#3D464D]"
-          >Available Products</span
+          >AVAILABLE PRODUCTS</span
         >
       </div>
       <!-- Dashed Border Container -->

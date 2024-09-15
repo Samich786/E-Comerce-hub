@@ -1,5 +1,17 @@
 <template>
-  <div class="h-screen">
+  <div class="">
+    <div class="mt-7 flex items-center px-8">
+      <!-- Title Container -->
+      <div class="flex-shrink-0">
+        <span class="text-[35px] font-semibold text-[#3D464D]"
+          >CART DETAILS</span
+        >
+      </div>
+      <!-- Dashed Border Container -->
+      <div
+        class="flex-grow border-b border-dashed border-[#BEC5CB] ml-4 mt-2"
+      ></div>
+    </div>
     <div class="grid lg:grid-cols-3 gap-10 md:grid-cols-1 px-8 py-5 pb-10">
       <div class="col-span-2 bg-white">
         <div class="overflow-x-auto">

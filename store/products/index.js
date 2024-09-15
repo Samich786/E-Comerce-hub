@@ -16,6 +16,7 @@ export const useProductsStore = defineStore('products',{
     },
     getTotalQuantity: (state) => {
       return state.carts?.length > 0 ? state.carts[0].totalQunatity : 0;
-    }
+    },
+    getProductByCategory: (state)=> state.productByCategory,
   },
 });

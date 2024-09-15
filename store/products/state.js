@@ -4,4 +4,5 @@ export const state = () => ({
   allProducts: [],
   productById:{},
   carts: [],
+  productByCategory:[]
 });

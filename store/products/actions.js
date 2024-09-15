@@ -74,6 +74,18 @@ export const actions = {
       return error;
     }
   },
+  async fetchProductByCategory(payload) {
+    // console.log(payload);
+    const { $apiClient, $API } = useNuxtApp();
+    try {
+      const response = await $apiClient.get($API.PRODUCTBYCATEGORY + `/${payload.category}`);
+      // console.log(response.data.data.data, 'dsd');
+      this.productByCategory = response.data.data.data.products;
+      return response;
+    } catch (error) {
+      return error;
+    }
+  },
   async addToCartData(payload) {
     // console.log(payload);
 

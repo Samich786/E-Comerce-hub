@@ -40,13 +40,13 @@ export default defineNuxtPlugin((nuxtApp) => {
           }
 
           const response = await axios.post(
-            "http://localhost:4000/refresh-token",
+            "http://localhost:4000/auth/refresh-token",
             { refreshToken }
           );
 
           const newAccessToken = response.data.accessToken;
           localStorage.setItem("auth._token.local", newAccessToken);
-          // localStorage.setItem("refreshToken", response.data.refreshToken);
+          localStorage.setItem("refreshToken", response.data.refreshToken);
           originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
           console.log(response.data);
 
