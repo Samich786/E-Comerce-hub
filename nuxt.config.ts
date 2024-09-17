@@ -19,7 +19,12 @@ export default defineNuxtConfig({
   //   },
   // },
   // middleware: ["authenticated"],
-  modules: ["@pinia/nuxt"],
+  modules: ["@pinia/nuxt", "nuxt-vue3-google-signin"],
+
+  googleSignIn: {
+    clientId:
+      "21577781470-2ak85seo3aft1qdnt6teunbpi8ojomtg.apps.googleusercontent.com",
+  },
   css: ["@/public/css/main.css", "@/public/css/global.css"],
   plugins: [
     "~/plugins/axios",

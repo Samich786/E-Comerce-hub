@@ -80,6 +80,10 @@
           </NuxtLink>
         </div>
       </form>
+      <GoogleSignInButton
+        @success="handleLoginSuccess"
+        @error="handleLoginError"
+      ></GoogleSignInButton>
     </div>
   </div>
 </template>
@@ -87,6 +91,7 @@
 import { ref } from "vue";
 import { useRouter } from "vue-router";
 import { useAuthStore } from "@/store/auth"; // Pinia store for auth
+import { GoogleSignInButton } from "vue3-google-signin";
 
 const email = ref("");
 const password = ref("");
@@ -96,6 +101,24 @@ const base64Image = ref(null);
 const router = useRouter();
 
 const authStore = useAuthStore();
+
+const handleLoginSuccess = async (response) => {
+  const { credential } = response;
+  try {
+    console.log("Access Token", credential);
+    const response = await authStore.loginWithGoogle(credential);
+    if (response?.status === 200) {
+      router.push("/");
+    }
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+// handle an error event
+const handleLoginError = () => {
+  console.error("Login failed");
+};
 
 const handleSubmit = async () => {
   try {

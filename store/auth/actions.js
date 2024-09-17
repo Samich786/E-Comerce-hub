@@ -42,6 +42,29 @@ export const actions = {
       console.error("Login failed:", error);
     }
   },
+  async loginWithGoogle(payload) {
+    const { $apiClient } = useNuxtApp();
+    console.log("payload", payload);
+
+    try {
+      const response = await $apiClient.post("/auth/googleLogin", {
+        token: payload,
+      });
+
+      localStorage.setItem(
+        "auth._token.local",
+        response.data.data.data.accessToken
+      );
+      localStorage.setItem(
+        "refreshToken",
+        response.data.data.data.refreshToken
+      );
+      await this.fetchUserData(); // Call another action directly
+      return response;
+    } catch (error) {
+      console.error("Login failed:", error);
+    }
+  },
   async fetchUserData() {
     const { $apiClient } = useNuxtApp();
     try {

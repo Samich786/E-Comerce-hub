@@ -1,7 +1,7 @@
 <template>
   <div class="">
     <div class="flex justify-between items-center px-8 mt-3">
-      <div v-if="LoginUser?.role === 'admin'">
+      <div v-if="LoginUser?.owner?.role === 'Admin'">
         <AddorEditProductModal />
       </div>
       <!-- Show the products -->
